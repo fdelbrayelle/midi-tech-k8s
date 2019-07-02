@@ -4,9 +4,9 @@
 
 Ce dépôt contient les [slides](https://github.com/fdelbrayelle/midi-tech-k8s/blob/master/slides) et la [démo](https://github.com/fdelbrayelle/midi-tech-k8s/blob/master/demo) du midi technique effectué le mercredi 3 juillet 2019 chez Gfi Informatique.
 
-Dans un premier temps, l'historique des containers dans le monde de l'informatique a été présenté puis un rappel des bases de Docker a été effectué. Ceci a permis d'amener le sujet vers Kubernetes (k8s) et de montrer son utilité pour orchestrer les containers. Une démo a été effectuée pour créer des containers Docker (1 back, 2 fronts), les faire communiquer ensemble via Kubernetes et les exécuter sur une machine locale.
+Dans un premier temps, l'historique des containers dans le monde de l'informatique a été présenté puis un rappel des bases de Docker a été effectué. Ceci a permis d'amener le sujet vers Kubernetes (k8s) et de montrer son utilité pour orchestrer les containers.
 
-En complément, le service mesh Istio et l'outil CI/CD Jenkins X ont également été évoqués.
+Une démo a été effectuée pour créer des containers Docker (1 back Spring Boot exposant une petite API REST pour gérer des bières et 1 front Angular pour les afficher), les faire communiquer ensemble via Kubernetes et les exécuter sur une machine locale via un unique cluster, directement dans un node master (sans node worker) et ce dans 2 pods distincts.
 
 Les supports peuvent être librement modifiés et réutilisés. Les slides ont également été [exportés au format PDF](https://github.com/fdelbrayelle/midi-tech-k8s/blob/master/slides/presentation.pdf).
 
