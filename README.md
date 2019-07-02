@@ -53,8 +53,7 @@ Il est nécessaire d'effectuer certaines actions avant de pouvoir tester Kuberne
 - Vérifier que les outils kubeadm, kubectl et kubelet sont bien installés
 - Désactiver le swap si besoin avec `sudo swapoff -a` pour que le service kubelet puisse fonctionner
 - Activer et démarrer kubelet avec `sudo systemctl enable kubelet` puis `sudo systemctl start kubelet` (pour éviter une erreur de ce type : "The connection to the server a.b.c.d:1234 was refused...")
-- Télécharger l'outil [dind-cluster](https://github.com/kubernetes-sigs/kubeadm-dind-cluster) pour gérer plusieurs nodes sur une même machine
-- [Installer le control plane de Kubernetes](https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm-init/) et initialiser un cluster avec `sudo ./dind-cluster-v1.13.sh init` (équivalent à `sudo kubeadm init`, génère la configuration dans /etc/kubernetes : utilisée par kubelet, le controller manager et le scheduler pour se connecter au API server)
+- [Installer le control plane de Kubernetes](https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm-init/) et initialiser un cluster avec `sudo kubeadm init` (génère la configuration dans /etc/kubernetes : utilisée par kubelet, le controller manager et le scheduler pour se connecter au API server)
 - Lancer la commande `kubectl get services` pour vérifier que le cluster est bien créé
 - [Installer un add-on réseau](https://kubernetes.io/fr/docs/setup/independent/create-cluster-kubeadm/#pod-network) (un seul par cluster) pour faire communiquer les pods entre eux, par exemple : `kubectl apply -f https://docs.projectcalico.org/v3.7/manifests/calico.yaml`
 - Copier la configuration dans le dossier personnel : `mkdir -p $HOME/.kube && sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config && sudo chown $(id -u):$(id -g) $HOME/.kube/config`
@@ -102,13 +101,10 @@ E0702 22:43:40.373075   25318 portforward.go:400] an error occurred forwarding 8
 
 ### Tester Web UI Dashboard (bonus)
 
-Lancer la commande `kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v1.10.1/src/deploy/recommended/kubernetes-dashboard.yaml` puis `kubectl proxy` et ouvrir l'URL http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/ dans un navigateur (cela ne fonctionnera que si un pod a été initialisé après la création du cluster).
-
-### Minikube (alternative non montrée en démo)
-
-Il est également possible d'orchestrer les containers via un cluster Kubernetes créé avec Minikube :
-
-- Installer VirtualBox avec `sudo apt install virtualbox virtualbox-dkms virtualbox-ext-pack`
-- [Installer minikube](https://kubernetes.io/docs/tasks/tools/install-minikube) avec la commande suivante : `curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 && chmod +x minikube && sudo install minikube /usr/local/bin`
-- Supprimer si besoin la précédente instance de minikube avec `sudo minikube delete -p minikube`
-- Créer un cluster local avec `sudo minikube start` et tester [d'autres commmandes](https://github.com/kubernetes/minikube#quick-start) si nécessaire
+- Lancer la commande `kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v1.10.1/src/deploy/recommended/kubernetes-dashboard.yaml`
+- Démarrer le proxy avec `kubectl proxy`
+- Ouvrir ensuite le dashboard avec `gio open http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/`. Cette étape ne fonctionnera que si un pod a été initialisé après la création du cluster.
+- Lister les secrets disposant d'un account token avec `kubectl -n kube-system get secret | grep account-token`
+- Décrire l'un de ces secrets (peu importe lequel) avec par exemple `kubectl -n kube-system describe secret flannel-token-rclhm`
+- Copier la valeur de la clé "token"
+- Dans la fenêtre qui s'ouvre sélectionner l'option "Token" et coller le token pour se connecter au dashboard et visualiser les informations du cluster, des nodes, des pods...
