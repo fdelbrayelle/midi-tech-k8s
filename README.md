@@ -1,6 +1,6 @@
 # Midi technique - Kubernetes
 
-<p align="center"><img src="https://github.com/fdelbrayelle/midi-tech-k8s/blob/master/slides/src/images/k8s.png" /></p>
+<p align="center"><img src="https://github.com/fdelbrayelle/midi-tech-k8s/blob/master/slides/src/images/k8s.png" width="50%" /></p>
 
 Ce dépôt contient les [slides](https://github.com/fdelbrayelle/midi-tech-k8s/blob/master/slides) et la [démo](https://github.com/fdelbrayelle/midi-tech-k8s/blob/master/demo) du midi technique effectué le mercredi 3 juillet 2019 chez Gfi Informatique.
 
@@ -12,7 +12,9 @@ Les supports peuvent être librement modifiés et réutilisés. Les slides ont �
 
 ## Étapes de la démo (Docker)
 
-Cette partie de la démo suppose que docker et docker-compose sont déjà installés sur le système.
+Présenter le mode interactif de lancement d'un container docker avec par exemple `docker run -it alpine` ou `docker run -it ubuntu` et montrer que pour certaines images il faut des informations comme pour `docker run -it mysql`.
+
+La suite de la démo suppose que docker et docker-compose sont déjà installés sur le système.
 
 Prérequis :
 - Vérifier que dockerd est activé et tourne avec `sudo systemctl enable docker.service`, `sudo service docker status` sinon `sudo service docker start`

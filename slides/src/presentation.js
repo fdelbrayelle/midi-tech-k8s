@@ -248,14 +248,17 @@ export default class Presentation extends React.Component {
             Dockerfile
           </Heading>
           <List>
-            <ListItem margin="60px 0 0">Fichier texte utilisé par <Code>docker build</Code></ListItem>
+            <ListItem margin="60px 0 0">Fichier texte utilisé par <Code>docker build -t IMAGE PATH|URL</Code></ListItem>
             <Appear><ListItem margin="30px 0 0">Contexte important (<Code>PATH</Code> : chemin relatif, <Code>URL</Code> : emplacement sur un dépôt git)</ListItem></Appear>
             <Appear><ListItem margin="30px 0 0">Liste de commandes pour fabriquer une image : <Code>INSTRUCTION arguments</Code></ListItem></Appear>
             <Appear><ListItem margin="30px 0 0"><Code>RUN</Code>, <Code>COPY</Code> et <Code>ADD</Code> = nouvelle couche</ListItem></Appear>
             <Appear><ListItem margin="30px 0 0">Autres instructions = images intermédiaires</ListItem></Appear>
           </List>
           <Notes>
-            Seules les couches modifiées dans un Dockerfile sont reconstruites.
+            <ul>
+              <li>Seules les couches modifiées dans un Dockerfile sont reconstruites.</li>
+              <li>docker build = docker image build</li>
+            </ul>
           </Notes>
         </Slide>
         <Slide transition={['fade']} bgColor="primary" textColor="secondary">
@@ -265,7 +268,7 @@ export default class Presentation extends React.Component {
           <List>
             <ListItem margin="60px 0 0"><Code>FROM image[:tag] [AS name]</Code> <strong>(obligatoire)</strong> pour indiquer l'image de base (première instruction)</ListItem>
             <Appear><ListItem margin="30px 0 0"><Code>COPY</Code> pour copier des fichiers</ListItem></Appear>
-            <Appear><ListItem margin="30px 0 0"><Code>ADD</Code> pour copier des fichiers (URL autorisés, archives également = dézippées)</ListItem></Appear>
+            <Appear><ListItem margin="30px 0 0"><Code>ADD</Code> pour copier des fichiers (URL autorisées, archives également = dézippées)</ListItem></Appear>
           </List>
           <Notes>
             <ul>
@@ -301,6 +304,11 @@ export default class Presentation extends React.Component {
             <Appear><ListItem margin="30px 0 0">Lance une compilation maven</ListItem></Appear>
             <Appear><ListItem margin="30px 0 0">Définit la commande d'entrée du container</ListItem></Appear>
           </List>
+          <Notes>
+            <ul>
+              Possibilité de remplacer le cd /app dans le RUN par une instruction WORKDIR /app
+            </ul>
+          </Notes>
         </Slide>
         <Slide transition={['fade']} bgColor="primary" textColor="secondary">
           <Heading size={3} textColor="tertiary" caps>
@@ -561,6 +569,7 @@ export default class Presentation extends React.Component {
             <Appear><ListItem margin="30px 0 0">1 ou n containers (Docker, rktlet...)</ListItem></Appear>
             <Appear><ListItem margin="30px 0 0">Réseau et stockage partagé</ListItem></Appear>
             <Appear><ListItem margin="30px 0 0">Relancé avec nouvelle IP à la destruction</ListItem></Appear>
+            <Appear><ListItem margin="30px 0 0"><Code>kubectl get|delete|describe... pod(s) NAME [ARGS]</Code></ListItem></Appear>
           </List>
           <Notes>
             <ul>
@@ -599,7 +608,7 @@ export default class Presentation extends React.Component {
             <Appear><ListItem margin="30px 0 0">Ajout de complexité possible</ListItem></Appear>
             <Appear><ListItem margin="30px 0 0">Historique via contrôle de sources</ListItem></Appear>
             <Appear><ListItem margin="30px 0 0">Validation sur https://kubeyaml.com/</ListItem></Appear>
-            <Appear><ListItem margin="30px 0 0"><Code>kubectl [apply|delete|replace] -f obj.yaml</Code></ListItem></Appear>
+            <Appear><ListItem margin="30px 0 0"><Code>kubectl apply|create|delete|replace -f obj.yaml</Code></ListItem></Appear>
           </List>
           <Notes>
             <ul>
@@ -616,8 +625,8 @@ export default class Presentation extends React.Component {
             <ListItem margin="60px 0 0">Créer un cluster en local</ListItem>
             <Appear><ListItem margin="30px 0 0">Commande <Code>minikube [cmd]</Code></ListItem></Appear>
             <Appear><ListItem margin="30px 0 0">Load balancing, dashboard, ...</ListItem></Appear>
-            <Appear><ListItem margin="30px 0 0" textColor="red" bold>Nécessite un hyperviseur (KVM, VirtualBox)</ListItem></Appear>
             <Appear><ListItem margin="30px 0 0">Alternatives : Kind, MicroK8s...</ListItem></Appear>
+            <Appear><ListItem margin="30px 0 0" textColor="red" bold>Nécessite un hyperviseur (KVM, VirtualBox)</ListItem></Appear>
           </List>
         </Slide>
         <Slide transition={['fade']} bgColor="primary" textColor="secondary">
@@ -669,18 +678,27 @@ export default class Presentation extends React.Component {
             En complément
           </Heading>
           <List>
-            <ListItem margin="60px 0 0">TODO service mesh (Istio)</ListItem>
-            <Appear><ListItem margin="30px 0 0">TODO Jenkins X</ListItem></Appear>
+            <ListItem margin="60px 0 0">Service mesh (Istio)</ListItem>
+            <Appear><ListItem margin="30px 0 0">Jenkins X mieux adapté</ListItem></Appear>
+            <Appear><ListItem margin="30px 0 0">Écosystème complexe et vaste</ListItem></Appear>
           </List>
+          <Notes>
+            <ul>
+              <li>Istio permet de contrôler les flux entre les services, de faire du blue/green deployment, etc.</li>
+            </ul>
+          </Notes>
         </Slide>
         <Slide transition={['fade']} bgColor="primary" textColor="secondary">
           <Heading size={3} textColor="tertiary" caps>
             Et le turfu ?
           </Heading>
           <List>
-            <ListItem margin="60px 0 0">TODO serverless</ListItem>
-            <Appear><ListItem margin="30px 0 0">TODO LinuxKit</ListItem></Appear>
+            <ListItem margin="60px 0 0">Serverless</ListItem>
+            <Appear><ListItem margin="30px 0 0">LinuxKit</ListItem></Appear>
           </List>
+          <Notes>
+            <ul>LinuxKit permet de construire des distributions Linux minimales et immutables : bâti sur des containers, pour lancer des containers.</ul>
+          </Notes>
         </Slide>
         <Slide transition={['fade']} bgColor="primary" textColor="secondary">
           <Heading size={3} textColor="tertiary" caps>
