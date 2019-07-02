@@ -27,8 +27,9 @@ Prérequis :
 - Créer une image Docker du back : `docker -t back build .`
 - Vérifier que l'image a été créée : `docker image ls`
 - Lancer le container :  `docker run -p 8080:8080 back`
-- Tester le back en ajoutant une bière : `curl -H 'Content-Type: application/json' -X POST -d '{ "id": "1", "name": "Anosteké", "brewery": "Brasserie du Pays Flamand" }' localhost:8080/beers` et en récupant la liste des bières : `curl localhost:8080/beers`
-- Pousser l'image sur le registry local : `docker login localhost:5000` pour se connecter puis `docker tag back fdelbrayelle/back` pour le tag et `docker push fdelbrayelle/back` pour pousser l'image
+- Tester le back en ajoutant une bière : `curl -H 'Content-Type: application/json' -X POST -d '{ "id": "1", "name": "Anosteké", "brewery": "Brasserie du Pays Flamand" }' localhost:8080/beers` et en récupérant la liste des bières : `curl localhost:8080/beers`
+- Pousser l'image sur le registry local : `docker login localhost:5000` pour se connecter puis `docker tag 6de55d87b083 localhost:5000/fdelbrayelle/back:latest` pour le tag et `docker push localhost:5000/fdelbrayelle/back:latest` pour pousser l'image
+- Vérifier que l'image est présente dans le registry : `gio open http://localhost:5000/v2/_catalog`
 
 ### Utiliser Docker sur le front
 
@@ -37,7 +38,8 @@ Prérequis :
 - Vérifier que l'image a été créée : `docker image ls`
 - Lancer le container :  `docker run -p 8081:80 angular-front`
 - Ouvrir un navigateur pour vérifier que l'application est bien lancée : `gio open https://localhost:8081`
-- Pousser l'image sur le registry local : `docker login localhost:5000` pour se connecter puis `docker tag back fdelbrayelle/front` pour le tag et `docker push fdelbrayelle/front` pour pousser l'image
+- Pousser l'image sur le registry local : `docker login localhost:5000` pour se connecter puis `docker tag dfdca0242ce6 localhost:5000/fdelbrayelle/front:latest` pour le tag et `docker push localhost:5000/fdelbrayelle/front:latest` pour pousser l'image
+- Vérifier que l'image est présente dans le registry : `gio open http://localhost:5000/v2/_catalog`
 
 ## Étapes de la démo (Kubernetes)
 
@@ -76,28 +78,26 @@ FLANNEL_IPMASQ=true
 ### Déployer le back
 
 - Créer un nouveau déploiement pour le back avec `kubectl run back-deployment --image=back --port=8080 --replicas=1` (cette commande est dépréciée et sera retirée dans une future version, il faut donc préférer `kubectl create -f k8s/back-deployment.yaml` et utiliser `kubectl explain [ressource]` pour obtenir une description des ressources possibles)
-- Vérifier que le déploiement est bien ajouté avec `kubectl get deployments` puis `kubectl describe deployments` pour avoir plus de détails
-
-- Accéder au pod avec du port-forwarding : `kubectl port-forward deployment/back-deployment 8080:8080` (KO car pod en pending = car )
+- Vérifier que le déploiement est bien ajouté avec `kubectl get deployments` puis `kubectl describe deployment back-deployment` pour avoir plus de détails
 - Exposer le pod avec `kubectl expose pod back-deployment-6749497fd9-kdfz8 --type=NodePort --name=back-service`
-- TODO : Faire un curl pour tester
-
-OU ?
-
-- Exposer le déploiement avec `kubectl expose deployment back-deployment --port=8080 --target-port=8080`
 - Vérifier que le déploiement est bien exposé en tant que service avec `kubectl get services`
-
-- TODO : kubectl scale deployment/back-deployment --replicas=2
+- Port-forwarder le pod : `kubectl port-forward back-deployment-86c67cd4f9-rj7jh 8080:8080`
+- Montrer la possibilité de scaler un déploiment avec par exemple `kubectl scale deployment/back-deployment --replicas=2`
+- Tester en récupérant la liste des bières : `curl localhost:8080/beers`
 
 ### Déployer le front
 
-TODO idem pour le front (autre pod)
+- Créer un nouveau déploiement pour le front avec `kubectl run front-deployment --image=back --port=8080 --replicas=1` (cette commande est dépréciée et sera retirée dans une future version, il faut donc préférer `kubectl create -f k8s/front-deployment.yaml` et utiliser `kubectl explain [ressource]` pour obtenir une description des ressources possibles)
+- Vérifier que le déploiement est bien ajouté avec `kubectl get deployments` puis `kubectl describe deployment front-deployment` pour avoir plus de détails
 - Exposer le pod avec `kubectl expose pod front-deployment-cc47df644-8whlc --type=NodePort --name=front-service`
-
-### En complément
-
-TODO kubectl proxy
-TODO logs
+- Vérifier que le déploiement est bien exposé en tant que service avec `kubectl get services`
+- Port-forwarder le pod : `kubectl port-forward front-deployment-75d6fff956-8n95v 8081:8081` (KO malgré les packages "socat" et "nsenter" installés) :
+```
+Handling connection for 8081
+E0702 22:43:40.373075   25318 portforward.go:400] an error occurred forwarding 8081 -> 8081: error forwarding port 8081 to pod fae05d8476983a92e64ea37b9528b1cf40d1e4f32a1f15f8da702810175322bb, uid : exit status 1: 2019/07/02 22:43:40 socat[25457] E connect(5, AF=2 127.0.0.1:8081, 16): Connection refused
+```
+- Montrer la possibilité de lire les logs avec `kubectl logs front-deployment-75d6fff956-pvns4`
+- Tester en ouvrant l'application : `gio open https://localhost:8081`
 
 ### Tester Web UI Dashboard (bonus)
 
