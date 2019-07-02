@@ -4,9 +4,9 @@
 
 Ce dépôt contient les [slides](https://github.com/fdelbrayelle/midi-tech-k8s/blob/master/slides) et la [démo](https://github.com/fdelbrayelle/midi-tech-k8s/blob/master/demo) du midi technique effectué le mercredi 3 juillet 2019 chez Gfi Informatique.
 
-Dans un premier temps, l'historique des containers dans le monde de l'informatique a été présenté puis un rappel des bases de Docker a été effectué. Ceci a permis d'amener le sujet vers Kubernetes (k8s) et de montrer son utilité pour orchestrer les containers.
+Dans un premier temps, __l'historique des containers__ dans le monde de l'informatique a été présenté puis __un rappel des bases de Docker__ a été effectué. Ceci a permis d'amener le sujet vers __Kubernetes__ (k8s) et de montrer son utilité pour orchestrer les containers.
 
-Une démo a été effectuée pour créer des containers Docker (1 back Spring Boot exposant une petite API REST pour gérer des bières et 1 front Angular pour les afficher), les faire communiquer ensemble via Kubernetes et les exécuter sur une machine locale via un unique cluster, directement dans un node master (sans node worker) et ce dans 2 pods distincts.
+Une démo a été effectuée pour créer des containers Docker (1 back Spring Boot exposant une petite API REST pour gérer des bières et 1 front Angular pour les afficher), les faire communiquer ensemble via Kubernetes et les exécuter sur une machine locale via un unique cluster, directement dans un node master (sans node worker) et ce dans 2 pods distincts (le tout en utilisant uniquement les outils `kubeadm` et `kubectl`).
 
 Les supports peuvent être librement modifiés et réutilisés. Les slides ont également été [exportés au format PDF](https://github.com/fdelbrayelle/midi-tech-k8s/blob/master/slides/presentation.pdf).
 
@@ -16,7 +16,8 @@ Présenter le mode interactif de lancement d'un container docker avec par exempl
 
 La suite de la démo suppose que docker et docker-compose sont déjà installés sur le système.
 
-Prérequis :
+### Prérequis
+
 - Vérifier que dockerd est activé et tourne avec `sudo systemctl enable docker.service`, `sudo service docker status` sinon `sudo service docker start`
 - Lancer un registry local avec ` docker run -d -p 5000:5000 --restart=always --name registry registry:2`
 
@@ -60,7 +61,7 @@ Il est nécessaire d'effectuer certaines actions avant de pouvoir tester Kuberne
 - Lire la configuration locale de Kubernetes : `kubectl config view` ou `cat $HOME/.kube/config`
 - Montrer la liste des nodes (et la possibilité d'abréger les commandes) avec `k get no`
 
-Il est nécessaire d'effectuer plusieurs opérations pour pour utiliser le node master (et ne pas avoir à gérer un node worker) :
+Ensuite pour utiliser le node master (et ne pas avoir à gérer un node worker) :
 - Lancer la commande suivante pour "déteinter" le node master et lui permettre de gérer des pods : `kubectl taint nodes --all node.kubernetes.io/not-ready:NoSchedule-`
 - Installer [flannel](https://github.com/coreos/flannel) (`sudo kubeadm init` n'initialise que coredns mais pas flannel) pour configurer une [implémentation du réseau sur Kubernetes](https://blog.laputa.io/kubernetes-flannel-networking-6a1cb1f8ec7c) avec `kubectl -n kube-system apply -f https://raw.githubusercontent.com/coreos/flannel/bc79dd1505b0c8681ece4de4c0d86c5cd2643275/Documentation/kube-flannel.yml`
 - Éventuellement supprimer les pods si existant avec `kubectl delete pod [pod-name]` (les lister avec `kubectl get pods`)
