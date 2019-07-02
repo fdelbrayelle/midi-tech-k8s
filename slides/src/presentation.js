@@ -173,7 +173,7 @@ export default class Presentation extends React.Component {
             <ListItem margin="60px 0 0">SaaS/PaaS de virtualisation niveau OS</ListItem>
             <Appear><ListItem margin="30px 0 0">Crée par Solomon Hykes</ListItem></Appear>
             <Appear><ListItem margin="30px 0 0">Licence Apache 2.0 (OSS) depuis 2013</ListItem></Appear>
-            <Appear><ListItem margin="30px 0 0">Développé en Go, v18.09.6 (06/05/2019)</ListItem></Appear>
+            <Appear><ListItem margin="30px 0 0">Développé en Go, v18.09.7 (27/06/2019)</ListItem></Appear>
             <Appear><ListItem margin="30px 0 0">Isolation et légereté</ListItem></Appear>
             <Appear><ListItem margin="30px 0 0">Peut contenir de tout (Java, JavaScript, TypeScript, base de données, ...)</ListItem></Appear>
           </List>
