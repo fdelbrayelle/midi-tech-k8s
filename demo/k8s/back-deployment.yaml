@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: back
-        image: localhost:5000/fdelbrayelle/back
+        image: localhost:5000/fdelbrayelle/back:latest
         ports:
         - containerPort: 8080

@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: front
-        image: localhost:5000/fdelbrayelle/front
+        image: localhost:5000/fdelbrayelle/front:latest
         ports:
         - containerPort: 8081
