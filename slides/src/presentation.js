@@ -692,7 +692,7 @@ export default class Presentation extends React.Component {
           <Heading size={1}>Démo !</Heading>
           <Image margin="75px 200px 0" src={images.jenkinsXLogo}></Image>
           <Text margin="75px 0 0" textColor="primary" textSize="24">
-          https://github.com/fdelbrayelle/midi-tech-k8s/demo
+          https://github.com/fdelbrayelle/midi-tech-k8s/tree/master/demo
           </Text>
         </Slide>
         <Slide transition={['fade']} bgColor="primary" textColor="secondary">
