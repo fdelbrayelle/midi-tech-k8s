@@ -588,8 +588,9 @@ export default class Presentation extends React.Component {
           </Heading>
           <List>
             <ListItem margin="60px 0 0">Objet REST</ListItem>
-            <Appear><ListItem margin="30px 0 0">Abstraction pour accès à 1 ou n pod(s)</ListItem></Appear>
+            <Appear><ListItem margin="30px 0 0">Abstraction réseau de 1 ou n pod(s)</ListItem></Appear>
             <Appear><ListItem margin="30px 0 0">Différent d'un service de Docker Compose</ListItem></Appear>
+            <Appear><ListItem margin="30px 0 0">Deployment = replicas, continuous delivery...</ListItem></Appear>
           </List>
           <Notes>
             <ul>
@@ -604,9 +605,9 @@ export default class Presentation extends React.Component {
             Configuration YAML
           </Heading>
           <List>
-            <ListItem margin="60px 0 0">Définition d'un objet k8s</ListItem>
+            <ListItem margin="60px 0 0">Définition d'un objet k8s (manifeste)</ListItem>
             <Appear><ListItem margin="30px 0 0">Ajout de complexité possible</ListItem></Appear>
-            <Appear><ListItem margin="30px 0 0">Historique via contrôle de sources</ListItem></Appear>
+            <Appear><ListItem margin="30px 0 0">Contrôle des sources</ListItem></Appear>
             <Appear><ListItem margin="30px 0 0">Validation sur https://kubeyaml.com/</ListItem></Appear>
             <Appear><ListItem margin="30px 0 0"><Code>kubectl apply|create|delete|replace -f obj.yaml</Code></ListItem></Appear>
           </List>
@@ -614,6 +615,7 @@ export default class Presentation extends React.Component {
             <ul>
               <li>Pas besoin de longues commandes</li>
               <li>kubectl convertit l'information contenue dans le YAML en JSON pour faire appel à l'API server</li>
+              <li>Possibilité aussi d'écrire des fichiers JSON</li>
             </ul>
           </Notes>
         </Slide>
@@ -622,27 +624,30 @@ export default class Presentation extends React.Component {
             Minikube
           </Heading>
           <List>
-            <ListItem margin="60px 0 0">Créer un cluster en local</ListItem>
+            <ListItem margin="60px 0 0">Créer un cluster single-node en local</ListItem>
             <Appear><ListItem margin="30px 0 0">Commande <Code>minikube [cmd]</Code></ListItem></Appear>
             <Appear><ListItem margin="30px 0 0">Load balancing, dashboard, ...</ListItem></Appear>
-            <Appear><ListItem margin="30px 0 0">Alternatives : Kind, MicroK8s...</ListItem></Appear>
-            <Appear><ListItem margin="30px 0 0" textColor="red" bold>Nécessite un hyperviseur (KVM, VirtualBox)</ListItem></Appear>
+            <Appear><ListItem margin="30px 0 0">Alternative single-node : MicroK8s</ListItem></Appear>
+            <Appear><ListItem margin="30px 0 0">Alternatives multi-nodes : Kind, Dind...</ListItem></Appear>
+            <Appear><ListItem margin="30px 0 0" textColor="red" bold>Nécessite un hyperviseur</ListItem></Appear>
           </List>
+          <Notes>
+            <ul>
+              <li>Solution on premise et cluster unique comme ses alternatives</li>
+              <li>Alternative pour tester du multi clusters en local : passer par des Raspberry Pi (ça tombe bien le 4 vient de sortir) !</li>
+              <li>Hyperviseurs possibles : KVM, VirtualBox...</li>
+            </ul>
+          </Notes>
         </Slide>
         <Slide transition={['fade']} bgColor="primary" textColor="secondary">
           <Heading size={3} textColor="tertiary" caps>
             Cloud
           </Heading>
           <List>
-            <ListItem margin="60px 0 0">Google Kubernetes Engine (GKE) avec la commande <Code>gcloud</Code> : https://cloud.google.com/kubernetes-engine</ListItem>
-            <Appear><ListItem margin="30px 0 0">Amazon Elastic container service for KuberneteS (EKS) : https://aws.amazon.com/fr/eks</ListItem></Appear>
-            <Appear><ListItem margin="30px 0 0">Azure Kubernetes Service (AKS) : https://docs.microsoft.com/en-us/azure/aks</ListItem></Appear>
+            <ListItem margin="60px 0 0">Google Kubernetes Engine (<strong>GKE</strong>) avec la commande <Code>gcloud</Code> : https://cloud.google.com/kubernetes-engine</ListItem>
+            <Appear><ListItem margin="30px 0 0">Amazon Elastic container service for KuberneteS (<strong>EKS</strong>) : https://aws.amazon.com/fr/eks</ListItem></Appear>
+            <Appear><ListItem margin="30px 0 0">Azure Kubernetes Service (<strong>AKS</strong>) : https://docs.microsoft.com/en-us/azure/aks</ListItem></Appear>
           </List>
-          <Notes>
-            <ul>
-              <li>Alternative pour tester du multi clusters en local : passer par des Raspberry Pi (ça tombe bien le 4 vient de sortir) !</li>
-            </ul>
-          </Notes>
         </Slide>
         <Slide transition={['fade']} bgColor="primary" textColor="secondary">
           <Heading size={3} textColor="tertiary" caps>
@@ -659,6 +664,23 @@ export default class Presentation extends React.Component {
             <Appear><ListItem margin="30px 0 0">Maintenu par la CNCF</ListItem></Appear>
             <Appear><ListItem margin="30px 0 0">Basé sur le <Code>Chart.yaml</Code></ListItem></Appear>
             <Appear><ListItem margin="30px 0 0">https://helm.sh/docs/</ListItem></Appear>
+          </List>
+          <Notes>
+            <ul>
+              <li>CNCF = Cloud native computing foundation</li>
+            </ul>
+          </Notes>
+        </Slide>
+        <Slide transition={['fade']} bgColor="primary" textColor="secondary">
+          <Heading size={3} textColor="tertiary" caps>
+            Commandes utiles
+          </Heading>
+          <List>
+            <ListItem margin="60px 0 0"><Code>kubectl logs POD</Code></ListItem>
+            <Appear><ListItem margin="30px 0 0"><Code>kubectl exec -it POD -- CMD</Code></ListItem></Appear>
+            <Appear><ListItem margin="30px 0 0"><Code>kubectl cp POD:/path/to/remote/file /path/to/local/file</Code></ListItem></Appear>
+            <Appear><ListItem margin="30px 0 0"><Code>kubectl help [CMD]</Code></ListItem></Appear>
+            <Appear><ListItem margin="30px 0 0"><Code>kubectl explain [OBJ]</Code></ListItem></Appear>
           </List>
           <Notes>
             <ul>
